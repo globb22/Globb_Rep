@@ -1,0 +1,115 @@
+Шаблон при инициилизации проекта на React:
+// (npm init)
+
+<----------------------------------------->
+
+json файл:
+
+"scripts": {
+    "start": "webpack-dev-server"
+}
+
+"dependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+},
+// Dev-зависимости: 
+"devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "babel-loader": "^8.2.5",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0"
+}
+
+<----------------------------------------->
+
+webpack файл:
+
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
+
+module.exports = {
+    // Точка входа:
+    mode: 'development',
+    entry: path.resolve('./src/index.js'),
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader'
+                }
+            }
+        ]
+    },
+    // Точка выхода: 
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'index_bundle.js'
+    },
+    // Исключения:
+    resolve: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
+    },
+    // Плагины: 
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './public/index.html',
+            title: 'Webpack App React'
+        })
+    ],
+    // Сервер
+    devServer: {
+        port: 3000,
+        open: true
+    }
+}
+
+<----------------------------------------->
+
+babel файд:
+
+{
+    "presets": ["@babel/preset-env", "@babel/preset-react"]
+}
+
+<----------------------------------------->
+
+index.js файл: 
+
+import React from "react"
+import { createRoot } from "react-dom/client"
+import App from "./App.jsx"
+
+// заместо ReactDOM 
+const container = document.getElementById('react_root')
+const root = createRoot(container)
+root.render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
+)
+// Обязательно строгий режим, он отлавливает потенциальные ошибки, без него ничего не работает :)
+
+<----------------------------------------->
+
+App.jsx файл:
+
+// Основной файл со всеми компонентами
+// Все импортируемые модули и компоненты
+import React from 'react'
+import Action from './components/Action'
+
+// Основная функция
+export default function App() {
+  return (
+   <Action />
+  )
+}
+
+<----------------------------------------->
